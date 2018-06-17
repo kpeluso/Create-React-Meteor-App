@@ -1,5 +1,5 @@
 # Meetr
-> MMGA - Make Meetings Useful Again
+> MMUA - Make Meetings Useful Again
 
 ## Description
 
