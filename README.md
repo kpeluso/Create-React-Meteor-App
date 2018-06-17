@@ -1,27 +1,27 @@
-# Create-React-Meteor-App
-## Meteor + React for fast prototyping.
+# Meetr
+> MMGA - Make Meetings Useful Again
 
-![img](https://cdn-images-1.medium.com/max/1184/1*-KyRdRGJA-Esr1W8taQoNg.png)
+## Description
 
-Full-Stack Web Development is the most popular developer occupation today. There are many ways to create a fullstack web application.
+Regardless if they ever were useful, they tend to not be these days. Meetr can help you ensure that your meetings are worthwhile.
 
- **React**, is a Javascript library for building user interfaces.
+Meetr was created off of the philosophy of *Rework* authors Jason Fried and David Heinemeier Hansson. According to them, meetings should abide by the following rules:
 
-**Meteor**, is a free and open-source isomorphic JavaScript web framework written using Node.js.
+1. :white_check_mark: Respect a strict time limit.
+2. :white_check_mark: Have as few people as possible.
+3. :white_check_mark: Have a clear agenda.
+4. :white_check_mark: End with a solution that holds people accountable for what they're tasked to implement.
+5. :x: Begin with a specific problem.
+6. :x: Meet at the problem site.
 
-## Installation
-
-    git clone git@github.com:alexsicart/Create-React-Meteor-App.git
-    cd Create-React-Meteor-App
-    npm i
-    meteor
+Meetr can help you abide by 4 of the 6 rules that should be imposed on meetings. We hope that you use Meetr (and hold meetings) only when you have a specific problem to tackle. We hope that when you meet, you meet at the source of the problem. Wherever that source may be, don't forget to take Meetr with you!
     
 ## Tech Stack
 
 The skeleton app has been created using
-- Meteor
-- React
-
+- [Create-React-Meteor-App](https://github.com/alexsicart/Create-React-Meteor-App)
+- [reactstrap](https://reactstrap.github.io/)
+- and some elbow grease
 
 ## Contributors
 
@@ -31,7 +31,6 @@ We love pull requests from everyone. By participating in this project, you agree
 Fork, then clone the repo:
 Push to your fork and  [submit a pull request].
 
-
 ## License
 
-`Create-React-Meteor-App` is licensed under the [MIT](http://www.opensource.org/licenses/mit-license.php)  license.
+`Meetr` is licensed under the [MIT](http://www.opensource.org/licenses/mit-license.php)  license.
