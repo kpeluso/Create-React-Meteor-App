@@ -3,9 +3,9 @@
 
 ## Description
 
-Regardless if they ever were useful, they tend to not be these days. Meetr can help you ensure that your meetings are worthwhile.
+Regardless if they ever were useful, they tend to not be these days. `Meetr` can help you ensure that your meetings are worthwhile.
 
-Meetr was created off of the philosophy of *Rework* authors Jason Fried and David Heinemeier Hansson. According to them, meetings should abide by the following rules:
+`Meetr` was created off of the philosophy of *Rework* authors Jason Fried and David Heinemeier Hansson. According to them, meetings should abide by the following rules:
 
 1. :white_check_mark: Respect a strict time limit.
 2. :white_check_mark: Have as few people as possible.
@@ -14,7 +14,7 @@ Meetr was created off of the philosophy of *Rework* authors Jason Fried and Davi
 5. :x: Begin with a specific problem.
 6. :x: Meet at the problem site.
 
-Meetr can help you abide by 4 of the 6 rules that should be imposed on meetings. We hope that you use Meetr (and hold meetings) only when you have a specific problem to tackle. We hope that when you meet, you meet at the source of the problem. Wherever that source may be, don't forget to take Meetr with you!
+`Meetr` can help you abide by 4 of the 6 rules that should be imposed on meetings. We hope that you use `Meetr` (and hold meetings) only when you have a specific problem to tackle. We hope that when you meet, you meet at the source of the problem. Wherever that source may be, don't forget to take `Meetr` with you!
     
 ## Tech Stack
 
