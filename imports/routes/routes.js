@@ -6,8 +6,6 @@ import React from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
 
-// import { Session } from 'meteor/session';
-
 import { Meets } from '../api/meets';
 
 import Header from '../ui/Header';
@@ -31,20 +29,8 @@ export const routes = (
           return <Before />
         }} />
         <Route path="/meet" render={() => {
-
           const maybeId = queryString.parse(location.search).m;
           return <CreatedContainer meetId={maybeId} />;
-
-          // Meteor.subscribe('allMeets');
-          //
-          // const maybeId = queryString.parse(location.search).m;
-          //
-          // console.log(typeof maybeId);
-          // console.log(maybeId);
-          //
-          // const maybeMeet = Meets.find({meetId: maybeId}).fetch();
-          //
-          // return maybeMeet.length ? <Created meet={maybeMeet[0]} /> : <NotFound />;
         }} />
         <Route path="*" render={() => {
           return <NotFound />
@@ -53,6 +39,4 @@ export const routes = (
     </Router>
   </div>
 );
-
-export default withTracker(() => {})(routes);
 

@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { Session } from 'meteor/session';
 import shortid from 'shortid';
 import SimpleSchema from 'simpl-schema';
 
