@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import moment from 'moment';
 import { withTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 
@@ -14,6 +15,7 @@ export default CreatedContainer = withTracker(({ meetId }) => {
   const loading = !meetsHandle.ready();
   const meet = Meets.findOne({meetId});
   const meetExists = !loading && !!meet;
+  const endTime = moment().add(60*meet.duration.hour + meet.duration.min, 'm')
 
   console.log('from container:');
   console.log(meet);
