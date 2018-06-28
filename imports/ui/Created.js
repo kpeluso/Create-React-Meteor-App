@@ -18,8 +18,14 @@ export default class Created extends React.Component {
     };
   }
   componentDidMount() {
-    Meteor.subscribe('allMeets');
+
+
+    //
+    // *** ALL OF THIS: LOGIC CAN GO IN CreatedContainer() !!! ***
+    //
+    
     this.timeTracker = Tracker.autorun(() => {
+      Meteor.subscribe('allMeets');
 
       // console.log(Meets.find({_id: this.props.meedId}).fetch()[0]);
       // console.log(Meets.findOne({_id: this.props.meedId}));
@@ -47,6 +53,12 @@ export default class Created extends React.Component {
         }
       }
     });
+
+    //
+    // *** ALL OF ^THIS LOGIC CAN GO IN CreatedContainer() !!! ***
+    //
+
+
   }
   componentWillUnmount() {
     this.timeTracker.stop(); // we don't want to set the state every time the page is loaded
