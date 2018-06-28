@@ -7,6 +7,10 @@ export default class During extends React.Component {
     this.state = {
       timerClass: 'timeGreen' // maybe make session...?
     };
+
+    console.log('from constructor in During:');
+    console.log(this.props);
+    console.log(this.state);
   }
   componentDidMount() {
     this.timeTracker = Tracker.autorun(() => {
@@ -36,7 +40,7 @@ export default class During extends React.Component {
           <h3>Copy/Share this link:</h3>
           <p>{window.location.href}</p>
           <h3>or this code:</h3>
-          <p>{this.props.meetId}</p>
+          <p>{this.props.meet.meetId}</p>
         </div>
 
         {this.timer()}

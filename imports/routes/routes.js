@@ -12,7 +12,8 @@ import Header from '../ui/Header';
 import Landing from '../ui/Landing';
 import Before from '../ui/Before';
 import Created from '../ui/Created';
-import CreatedContainer from '../ui/CreatedContainer';
+// import CreatedContainer from '../ui/CreatedContainer';
+import Loading from '../ui/Loading';
 import NotFound from '../ui/NotFound';
 
 const browserHistory = createHistory();
@@ -30,7 +31,7 @@ export const routes = (
         }} />
         <Route path="/meet" render={() => {
           const maybeId = queryString.parse(location.search).m;
-          return <CreatedContainer meetId={maybeId} />;
+          return <Created meetId={maybeId} />
         }} />
         <Route path="*" render={() => {
           return <NotFound />
