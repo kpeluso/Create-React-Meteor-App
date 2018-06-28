@@ -19,10 +19,10 @@ export default class Created extends React.Component {
   }
 
   componentDidMount() {
-    this.timeTracker = Tracker.autorun(() => {
+    this.meetTracker = Tracker.autorun(() => {
       const subHandle = Meteor.subscribe('allMeets');
       const loading = !subHandle.ready();
-      
+
       const maybeMeet = Meets.find({meetId: this.props.meetId}).fetch();
       if (!maybeMeet.length && loading) {
         this.setState({active: <Loading />});
@@ -50,7 +50,7 @@ export default class Created extends React.Component {
     });
   }
   componentWillUnmount() {
-    this.timeTracker.stop();
+    this.meetTracker.stop();
   }
   render() {
     return (
