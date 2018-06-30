@@ -1,20 +1,36 @@
+import moment from 'moment';
 import React from 'react';
 import { Session } from 'meteor/session';
+import { TimeSync } from 'meteor/mizzao:timesync';
 
 export default class During extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      timerClass: 'timeGreen' // maybe make session...?
+      currTime: 0,
+      timerClass: 'timeGreen',
+      startTime: moment().valueOf()//.add(60*this.props.meet.duration.hour + this.props.meet.duration.min, 'm')
     };
-
-    console.log('from constructor in During:');
-    console.log(this.props);
-    console.log(this.state);
   }
   componentDidMount() {
+    TimeSync.loggingEnabled = false; // prevents messages to client
     this.timeTracker = Tracker.autorun(() => {
-      this.setState({timerClass: Session.get('timerClass')});
+      // calculate the time
+      let serv = TimeSync.serverTime();
+      let diff = (this.state.startTime - moment(serv).valueOf())/1000; // seconds remaining
+      if (!!diff) {
+        let currTime = this.props.meet.duration.hour*3600 + this.props.meet.duration.min*60 + diff;
+        const formattedCurrTime = moment.utc(currTime*1000).format('HH:mm:ss'); // current time remaining
+        this.setState({currTime: formattedCurrTime});
+        // get class of timer
+        if (diff >= -10 && diff < 0) {
+          this.setState({timerClass: 'timeYellow'}); // green timer --> yellow timer
+        } else if (diff >= 0 && diff < 5) {
+          this.setState({timerClass: 'timeRed'}); // yellow timer --> flashing red timer at 00:00
+        } else if (diff >= 5) {
+          this.setState({active: <After />}); // <During /> --> <After />
+        }
+      }
     });
   }
   componentWillUnmount() {
@@ -24,8 +40,7 @@ export default class During extends React.Component {
     return (
       <div className={`box ${this.state.timerClass}`}>
         <p>Time Remaining:</p>
-        <p>{moment().to(this.state.endTime)}</p>
-        {/* <p>{`${this.state.endTime}:${__}:${__}`}</p> */}
+        <p>{this.state.currTime}</p>
       </div>
     );
   }
