@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import moment from 'moment';
 import { Mongo } from 'meteor/mongo';
 import shortid from 'shortid';
 import SimpleSchema from 'simpl-schema';
@@ -49,8 +50,9 @@ Meteor.methods({
     Meets.insert({
       meetId: newId,
       ...meet,
-      createDate: new Date(),
-      started: false
+      createDate: moment().valueOf(),
+      started: false,
+      ended: false
     });
     return newId;
   },
@@ -70,23 +72,20 @@ Meteor.methods({
   //   return Meets.find({meetId: meetId}).fetch();
   // },
 
-  'meets.start'(meetId, started) {
+  'meets.start'(meetId) {
     try {
       new SimpleSchema({
         meetId: {
           type: String,
           label: 'A NEWLY STARTED MEETING meetId',
           min: 1
-        },
-        started: {
-          type: Boolean
         }
-      }).validate({meetId, started});
+      }).validate(meetId);
     } catch (e) {
       throw new Meteor.Error(400,e.message);
     }
-    Meets.update({meetId}, {
-        $set: {started}
+    Meets.update(meetId, {
+        $set: {started: true}
       }
     );
   },
@@ -100,11 +99,30 @@ Meteor.methods({
           label: 'MEETING meetId',
           min: 1
         }
-      }).validate({meetId});
+      }).validate(meetId);
     } catch (e) {
       throw new Meteor.Error(400,e.message);
     }
-    Meets.remove({meetId});
+    Meets.update(meetId, {
+        $set: {ended: true}
+      }
+    );
+  },
+
+  'meets.rm'(meetId) {
+    // triggered when meeting timer ends or when meeting ended early
+    try {
+      new SimpleSchema({
+        meetId: {
+          type: String,
+          label: 'MEETING meetId',
+          min: 1
+        }
+      }).validate(meetId);
+    } catch (e) {
+      throw new Meteor.Error(400,e.message);
+    }
+    Meets.remove(meetId);
   }
 });
 

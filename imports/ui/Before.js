@@ -2,7 +2,6 @@ import createHistory from 'history/createBrowserHistory';
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import React from 'react';
-import { Redirect } from 'react-router';
 
 export default class Before extends React.Component {
   // Source:
