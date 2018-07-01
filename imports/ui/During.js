@@ -21,10 +21,6 @@ export default class During extends React.Component {
       let diff = (this.props.meet.createDate - moment(serv).valueOf())/1000; // seconds remaining
       if (!!diff) {
         let currTime = diff + this.props.meet.duration.hour*3600 + this.props.meet.duration.min*60;
-
-        console.log(diff);
-        console.log(currTime);
-
         const formattedCurrTime = moment.utc(currTime*1000).format('HH:mm:ss'); // current time remaining
         // get class of timer
         if (currTime <= 120 && currTime > 10) {
@@ -37,19 +33,7 @@ export default class During extends React.Component {
           this.setState({currTime: moment.utc(0).format('HH:mm:ss')});
           this.setState({timerClass: 'timeRed flash'}); // red timer --> flashing red timer at 00:00
         } else if (currTime <= -6) {
-          // send call to Created component through database to reclassify meet as 'ended'
-          Meteor.call(
-            'meets.end',
-            { meetId: this.props.meet.meetId },
-            (err) => {
-              if (!err) {
-                alert('Your meeting has ended!');
-              } else {
-                alert(err.reason);
-                this.setState({error: err.reason})
-              }
-            }
-          );
+          this.endMeet();
         }
       }
     });
@@ -63,6 +47,21 @@ export default class During extends React.Component {
         <p>Time Remaining:</p>
         <p>{this.state.currTime}</p>
       </div>
+    );
+  }
+  endMeet() {
+    // send call to Created component through database to reclassify meet as 'ended'
+    Meteor.call(
+      'meets.end',
+      { meetId: this.props.meet.meetId },
+      (err) => {
+        if (!err) {
+          alert('Your meeting has ended!');
+        } else {
+          alert(err.reason);
+          this.setState({error: err.reason})
+        }
+      }
     );
   }
   render() {
@@ -86,7 +85,7 @@ export default class During extends React.Component {
         </div>
 
         {/* bright, noticeable, clickable color & placement */}
-        <button>End Early!</button>
+        <button onClick={this.endMeet.bind(this)}>End Early!</button>
       </div>
     );
   }

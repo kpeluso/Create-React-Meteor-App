@@ -15,6 +15,7 @@ if (Meteor.isServer) {
 Meteor.methods({
   'meets.create'(meet) {
     try {
+      // validate whole meet object
       new SimpleSchema({
         duration: Object,
         'duration.hour': Number,
@@ -25,27 +26,49 @@ Meteor.methods({
           minCount: 1,
           maxCount: 5
         },
-        'goals.$': String,
+        'goals.$': Object,
+        'goals.$.statement': String,
         people: {
           type: Array,
           label: 'MEETING PARTICIPANTS\' NAMES',
           minCount: 2,
           maxCount: 10
         },
-        'people.$': String,
-        emails: {
-          type: Array,
-          label: 'MEETING PARTICIPANTS\' EMAILS',
-          maxCount: 10
-        },
-        'emails.$': {
-          type: SimpleSchema.RegEx.Email,
-          optional: true
-        }
+        'people.$': Object,
+        'people.$.name': String,
+        'people.$.email': String
       }).validate(meet);
     } catch (e) {
       throw new Meteor.Error(400,e.message);
     }
+    // validate goals property
+    try {
+      new SimpleSchema({
+        'statement': {
+          label: 'MEETING.GOAL',
+          type: String
+        }
+      }).validate(meet.goals);
+    } catch (e) {
+      throw new Meteor.Error(400,e.message);
+    }
+    // validate people property
+    try {
+      new SimpleSchema({
+        'name': {
+          label: 'MEETING.PEOPLE.NAME',
+          type: String
+        },
+        'email': {
+          label: 'MEETING.PEOPLE.EMAIL',
+          type: SimpleSchema.RegEx.Email,
+          optional: true
+        }
+      }).validate(meet.people);
+    } catch (e) {
+      throw new Meteor.Error(400,e.message);
+    }
+    // insert meet into collection
     const newId = shortid.generate();
     Meets.insert({
       meetId: newId,

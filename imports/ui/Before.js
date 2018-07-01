@@ -28,7 +28,6 @@ export default class Before extends React.Component {
       if (idx !== sidx) return goal;
       return { ...goal, statement: evt.target.value };
     });
-    // this.setState({ goals: ...newGoals.goals });
     this.setState({goals: newGoals});
   }
   handleNameChange = (idx) => (evt) => {
@@ -46,18 +45,34 @@ export default class Before extends React.Component {
     this.setState({ people: newEmails });
   }
   handleSubmit = (evt) => {
-    event.preventDefault();
-
+    evt.preventDefault();
+    let valid = true;
+    // clear unfilled goals
+    const cleanMeet = {};
+    cleanMeet.goals = this.state.goals.filter(goal => goal.statement.length);
+    cleanMeet.people = this.state.people.filter(person => person.name.length);
+    if (this.errCheck(cleanMeet)) {
+      cleanMeet.duration = this.state.duration;
+      this.insertMeet(cleanMeet);
+    }
+  }
+  errCheck(cleanMeet) {
+    // validate user input on client
+    if (cleanMeet.goals.length < 1) {
+      alert('A meeting must have at least 1 goal!');
+      return false;
+    }
+    if (cleanMeet.people.length < 2) {
+      alert('A meeting must have at least 2 participants!');
+      return false;
+    }
+    return true;
+  }
+  insertMeet(cleanMeet) {
+    // insert meet into collection
     Meteor.call(
-      'meets.create', {
-        duration: {
-          hour: this.state.duration.hour,
-          min: this.state.duration.min
-        },
-        goals: this.state.goals.map((goal) => goal.statement),
-        people: this.state.people.map((person) => person.name),
-        emails: this.state.people.map((person) => person.email)
-      },
+      'meets.create',
+      cleanMeet,
       (err, newId) => {
         if (!err) {
           alert('Your meeting has been created!\nYour meeting will now begin...');
