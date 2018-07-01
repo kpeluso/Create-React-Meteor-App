@@ -1,3 +1,4 @@
+import Email from 'email';
 import { Meteor } from 'meteor/meteor';
 import moment from 'moment';
 import { Mongo } from 'meteor/mongo';
@@ -80,21 +81,6 @@ Meteor.methods({
     return newId;
   },
 
-  // 'meets.query'(meetId) {
-  //   try {
-  //     new SimpleSchema({
-  //       meetId: {
-  //         type: String,
-  //         label: 'MEETING meetId',
-  //         min: 1
-  //       }
-  //     }).validate(meetId);
-  //   } catch (e) {
-  //     throw new Meteor.Error(400,e.message);
-  //   }
-  //   return Meets.find({meetId: meetId}).fetch();
-  // },
-
   'meets.start'(meetId) {
     try {
       new SimpleSchema({
@@ -132,7 +118,7 @@ Meteor.methods({
     );
   },
 
-  'meets.rm'(meetId) {
+  'meets.rm'(meetId, text) {
     // triggered when meeting timer ends or when meeting ended early
     try {
       new SimpleSchema({
@@ -145,6 +131,16 @@ Meteor.methods({
     } catch (e) {
       throw new Meteor.Error(400,e.message);
     }
+    const meet = Meets.findOne(meetId);
+    const createdAt = moment(meet.createDate).format('MMM DD h:mm A');
+    process.env.MAIL_URL =
+      "smtp://postmaster@sandboxfebb3b1caf1e4c6b80c530f3d1f9a0f4.mailgun.org:028f545ed9766f49f92bb270689d766f-e44cc7c1-9c8a3d1b@smtp.mailgun.org:587";
+    Email.send({
+      to: meet.people.map(person => person.email),
+      from: "no-reply@email.com",
+      subject: "Meetr Receipt: Meeting "+meetId+" created "+createdAt,
+      ...text
+    });
     Meets.remove(meetId);
   }
 });

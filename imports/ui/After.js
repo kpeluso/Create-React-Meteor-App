@@ -1,4 +1,5 @@
 import createHistory from 'history/createBrowserHistory';
+import moment from 'moment';
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Button, Col, Form, FormGroup, Label, Input } from 'reactstrap';
@@ -6,6 +7,13 @@ import { Button, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 export default class After extends React.Component {
   constructor(props) {
     super(props);
+    const numGoals = this.props.meet.goals.length;
+    const numPeople = this.props.meet.people.length;
+    const goal2People = Array.apply(false, Array(numPeople)).map(function () {});
+    this.state = {
+      goals2done: Array.apply(null, Array(numGoals)).map(function () {}),
+      goals2people: Array.apply(goal2People, Array(numGoals)).map(function () {})
+    }
   }
   selectPeople(people, keyId) {
     return (
@@ -18,6 +26,45 @@ export default class After extends React.Component {
         </Col>
       </FormGroup>
     );
+  }
+  handleGoals2DoneChange = (goalIdx) => (evt) => {
+    const newGoals2Done = this.state.newGoals2Done.map((goal2Done, sidx) => {
+      if (goalIdx !== sidx) return goal2Done;
+      return evt.target.value;
+    });
+    this.setState({goals2done: newGoals2Done});
+  }
+  handleGoal2PeopleChange = (goalIdx, personIdx) => (evt) => {
+    const newGoals2People = this.state.newGoals2People.map((goal2People, sidx) => {
+      if (goalIdx !== sidx) return goal2People;
+      return goal2People.map((personIdx, ssidx) => {
+        if (personIdx !== ssidx) return goal2People;
+        return evt.target.value;
+      });
+    });
+    this.setState({goals2people: newGoals2People});
+  }
+  emailText() {
+    let parts = '';
+    let accs = '';
+    let resps = '';
+    let output = `Congrats! You made it through another meeting!
+                \n
+                \nMeeting ID: ${this.props.meet.meetId}
+                \nCreated at: ${moment(this.props.meet.createDate).format('MMM DD h:mm A')}
+                \n
+                \nThis is who participated in the meeting:
+                ${parts}
+                \n
+                \nDuring this meeting, we did/did not accomplished these goals:
+                ${accs}
+                \n
+                \nResponsibilities:
+                ${resps}
+                \n
+                \nThanks for using Meetr!
+                \nCreate a new meeting at: https://mmua.herokuapp.com`;
+    return output;
   }
   handleSubmit(evt) {
     evt.preventDefault();

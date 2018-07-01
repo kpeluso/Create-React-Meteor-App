@@ -52,11 +52,9 @@ export default class Created extends React.Component {
       }
     });
   }
-
   componentWillUnmount() {
     this.meetTracker.stop();
   }
-
   handleDurAft(myMeet) {
     if (myMeet.started) {
       if (myMeet.ended) {
@@ -66,16 +64,6 @@ export default class Created extends React.Component {
       }
     }
   }
-
-  // myCallback(after) {
-  //   if (after) {
-  //
-  //   } else {
-  //     this.setState({active: <During meet={maybeMeet[0]} callbackDalFiglio={} />});
-  //   }
-  //   return after ? <After meet={maybeMeet[0]} /> :
-  // }
-
   render() {
     return (
       <div className='container'>
