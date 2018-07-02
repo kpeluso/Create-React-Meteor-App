@@ -9,10 +9,12 @@ export default class After extends React.Component {
     super(props);
     const numGoals = this.props.meet.goals.length;
     const numPeople = this.props.meet.people.length;
-    const goal2People = Array.apply(false, Array(numPeople)).map(function () {});
+    // const goal2People = Array.apply(false, Array(numPeople)).map(function () {});
     this.state = {
       goals2done: Array.apply(null, Array(numGoals)).map(function () {}),
-      goals2people: Array.apply(goal2People, Array(numGoals)).map(function () {})
+      // goals2people: Array.apply(goal2People, Array(numGoals)).map(function () {})
+      // goals2people: Array.apply(goal2People, Array(numGoals)).map(function () {})
+      goals2people: [...Array(numGoals)].map(e => Array(numPeople))
     }
   }
   selectPeople(people, keyId) {
@@ -44,35 +46,60 @@ export default class After extends React.Component {
     });
     this.setState({goals2people: newGoals2People});
   }
+  listParts() {
+    return this.props.meet.people.map((person) => {
+      return '%0D%0A'+person.name;
+    });
+  }
+  listAccs() {
+    return '%0D%0A'+this.state.goals2done.map((goalDone, idx) => {
+      return !!goalDone+' - '+this.props.meet.goals[idx];
+    });
+  }
+  listResps() {
+    return this.state.goals2people.map((goal2people, goalIdx) => {
+      return '%0D%0A'+this.props.meet.goals[goalIdx]+' - '+goal2people.map((persResp, persIdx) => {
+        return !!persResp ? this.props.meet.people[persIdx].name+', ' : '';
+      });
+    });
+  }
   emailText() {
-    let parts = '';
-    let accs = '';
-    let resps = '';
+    let parts = this.listParts();
+    let accs = this.listAccs();
+    let resps = this.listResps();
     let output = `Congrats! You made it through another meeting!
-                \n
-                \nMeeting ID: ${this.props.meet.meetId}
-                \nCreated at: ${moment(this.props.meet.createDate).format('MMM DD h:mm A')}
-                \n
-                \nThis is who participated in the meeting:
-                ${parts}
-                \n
-                \nDuring this meeting, we did/did not accomplished these goals:
-                ${accs}
-                \n
-                \nResponsibilities:
-                ${resps}
-                \n
-                \nThanks for using Meetr!
-                \nCreate a new meeting at: https://mmua.herokuapp.com`;
+    %0D%0A
+    %0D%0A Meeting ID: ${this.props.meet.meetId}
+    %0D%0A
+    %0D%0A Created at: ${moment(this.props.meet.createDate).format('MMM DD h:mm A')}
+    %0D%0A
+    %0D%0A This is who participated in the meeting:
+    ${parts}
+    %0D%0A
+    %0D%0ADuring this meeting, we did/did not accomplished these goals:
+    ${accs}
+    %0D%0A
+    %0D%0AResponsibilities:
+    ${resps}
+    %0D%0A
+    %0D%0AThanks for using Meetr
+    %0D%0ACreate a new meeting at: https://mmua.herokuapp.com`;
     return output;
   }
   handleSubmit(evt) {
     evt.preventDefault();
+    const text = this.emailText();
+    const createdAt = moment(this.props.meet.createDate).format('MMM DD h:mm A');
+    const subject = "Meetr Receipt: Meeting "+this.props.meet.meetId+" created "+createdAt
     Meteor.call(
       'meets.rm',
       { meetId: this.props.meet.meetId },
       (err) => {
         if (!err) {
+          //
+          // semicolon delimited multiple emamil addresses
+          //
+          window.open(`mailto:test@example.com?subject=${subject}&body=${text}`);
           alert('Your meeting has been cleared from our records!');
           createHistory().push('/');
           window.location.reload();
@@ -111,6 +138,7 @@ export default class After extends React.Component {
           </div>
 
           <div className='box'>
+            <small>Make sure your pop-up blocker is disabled!</small>
             <p>Destroy meeting from collection upon button hit or after a fixed period of time (24 hours).</p>
             <Button type='submit'>Leave Meeting</Button>
           </div>

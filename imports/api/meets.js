@@ -1,4 +1,4 @@
-import Email from 'email';
+import { Email } from 'meteor/email';
 import { Meteor } from 'meteor/meteor';
 import moment from 'moment';
 import { Mongo } from 'meteor/mongo';
@@ -118,30 +118,33 @@ Meteor.methods({
     );
   },
 
-  'meets.rm'(meetId, text) {
+  'meets.rm'(meetId) {
     // triggered when meeting timer ends or when meeting ended early
     try {
       new SimpleSchema({
         meetId: {
           type: String,
-          label: 'MEETING meetId',
+          label: 'MEETING RM meetId',
           min: 1
         }
       }).validate(meetId);
     } catch (e) {
       throw new Meteor.Error(400,e.message);
     }
-    const meet = Meets.findOne(meetId);
-    const createdAt = moment(meet.createDate).format('MMM DD h:mm A');
-    process.env.MAIL_URL =
-      "smtp://postmaster@sandboxfebb3b1caf1e4c6b80c530f3d1f9a0f4.mailgun.org:028f545ed9766f49f92bb270689d766f-e44cc7c1-9c8a3d1b@smtp.mailgun.org:587";
-    Email.send({
-      to: meet.people.map(person => person.email),
-      from: "no-reply@email.com",
-      subject: "Meetr Receipt: Meeting "+meetId+" created "+createdAt,
-      ...text
-    });
-    Meets.remove(meetId);
+    const rm = {};
+    rm.meetId = meetId;
+    // const meet = Meets.findOne(rm);
+    // const text = meetId_Text.text;
+    // const createdAt = moment(meet.createDate).format('MMM DD h:mm A');
+    // process.env.MAIL_URL = "smtp://postmaster@sandboxfebb3b1caf1e4c6b80c530f3d1f9a0f4.mailgun.org:028f545ed9766f49f92bb270689d766f-e44cc7c1-9c8a3d1b@smtp.mailgun.org:587";
+    // this.unblock(); // lets client run before emails finish sending
+    // Email.send({
+    //   to: meet.people.map(person => person.email),
+    //   from: "no-reply@email.com",
+    //   subject: "Meetr Receipt: Meeting "+meetId_Text.meetId+" created "+createdAt,
+    //   ...text
+    // });
+    Meets.remove(rm);
   }
 });
 

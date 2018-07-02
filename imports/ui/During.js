@@ -9,7 +9,7 @@ export default class During extends React.Component {
     super(props);
     this.state = {
       started: false,
-      currTime: 0,
+      currTime: '',
       timerClass: 'timeGreen'
     };
   }
@@ -22,12 +22,11 @@ export default class During extends React.Component {
       if (!!diff) {
         let currTime = diff + this.props.meet.duration.hour*3600 + this.props.meet.duration.min*60;
         const formattedCurrTime = moment.utc(currTime*1000).format('HH:mm:ss'); // current time remaining
+        this.setState({currTime: formattedCurrTime});
         // get class of timer
         if (currTime <= 120 && currTime > 10) {
-          this.setState({currTime: formattedCurrTime});
           this.setState({timerClass: 'timeYellow'}); // green timer --> yellow timer
         } else if (currTime <= 10 && currTime > 0) {
-          this.setState({currTime: formattedCurrTime});
           this.setState({timerClass: 'timeRed'}); // yellow timer --> red timer
         } else if (currTime <= 0 && currTime > -6) {
           this.setState({currTime: moment.utc(0).format('HH:mm:ss')});
@@ -40,14 +39,6 @@ export default class During extends React.Component {
   }
   componentWillUnmount() {
     this.timeTracker.stop(); // we don't want to set the state every time the page is loaded
-  }
-  timer() {
-    return (
-      <div className={`box ${this.state.timerClass}`}>
-        <p>Time Remaining:</p>
-        <p>{this.state.currTime}</p>
-      </div>
-    );
   }
   endMeet() {
     // send call to Created component through database to reclassify meet as 'ended'
@@ -78,7 +69,10 @@ export default class During extends React.Component {
           <p>{this.props.meet.meetId}</p>
         </div>
 
-        {this.timer()}
+        <div className={`box ${this.state.timerClass}`}>
+          <p>Time Remaining:</p>
+          <p>{this.state.currTime}</p>
+        </div>
 
         <div className='box'>
           Goals:
