@@ -1,6 +1,8 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 

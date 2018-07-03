@@ -133,17 +133,6 @@ Meteor.methods({
     }
     const rm = {};
     rm.meetId = meetId;
-    // const meet = Meets.findOne(rm);
-    // const text = meetId_Text.text;
-    // const createdAt = moment(meet.createDate).format('MMM DD h:mm A');
-    // process.env.MAIL_URL = "smtp://postmaster@sandboxfebb3b1caf1e4c6b80c530f3d1f9a0f4.mailgun.org:028f545ed9766f49f92bb270689d766f-e44cc7c1-9c8a3d1b@smtp.mailgun.org:587";
-    // this.unblock(); // lets client run before emails finish sending
-    // Email.send({
-    //   to: meet.people.map(person => person.email),
-    //   from: "no-reply@email.com",
-    //   subject: "Meetr Receipt: Meeting "+meetId_Text.meetId+" created "+createdAt,
-    //   ...text
-    // });
     Meets.remove(rm);
   }
 });

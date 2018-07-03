@@ -1,5 +1,6 @@
 import createHistory from 'history/createBrowserHistory';
 import { Meteor } from 'meteor/meteor';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Tracker } from 'meteor/tracker';
 
@@ -72,4 +73,8 @@ export default class Created extends React.Component {
     );
   }
 }
+
+Created.propTypes = {
+  meetid: PropTypes.string.isRequired
+};
 

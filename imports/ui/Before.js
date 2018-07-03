@@ -98,54 +98,66 @@ export default class Before extends React.Component {
   }
   render() {
     return (
-      <div className='box'>
-        <h3>Plan your meeting.</h3>
-        <small>Tip: Only start a meeting with a problem in mind, and be sure to meet at the site of the problem.</small>
-        <small>Tip: Invite less than 5 (relevant) participants and less than 5 goals.</small>
+      <div className='narrow'>
+        
+        <div className='box'>
+          <h3>Plan your meeting.</h3>
+          <small>Tip: Only start a meeting with a problem in mind, and be sure to meet at the site of the problem.</small>
+          <br/>
+          <small>Tip: Invite less than 5 (relevant) participants and less than 5 goals.</small>
+        </div>
+
         <form method='post' onSubmit={this.handleSubmit}>
-          Duration: <input type='number' name='duration_hour' value={this.state.duration.hour} onChange={this.handleDurationChange('hour')} min='0' max='24' placeholder='0-24' /> hour(s), <input type='number' name='duration_min' value={this.state.duration.min} onChange={this.handleDurationChange('min')} min='0' max='59' placeholder='0-59' /> minutes
 
+          <div className='box'>
+            Duration: <input type='number' name='duration_hour' value={this.state.duration.hour} onChange={this.handleDurationChange('hour')} min='0' max='24' placeholder='0-24' /> hour(s), <input type='number' name='duration_min' value={this.state.duration.min} onChange={this.handleDurationChange('min')} min='0' max='59' placeholder='0-59' /> minutes
+          </div>
 
-          <p>Goals:</p>
-          {/* input name = goals */}
-          {this.state.goals.map((goal, idx) => (
-            <div className="goal" key={`goal_${idx + 1}`}>
-              <input
-                type="text"
-                placeholder={`goal_${idx + 1}`}
-                value={goal.statement}
-                onChange={this.handleGoalChange(idx)}
-              />
-              <button type="button" onClick={this.handleRemove('goals')(idx)} className="small">X</button>
-            </div>
-          ))}
-          <button type="button" onClick={this.handleAdd('goals')} className="small">Add Goal</button>
+          <div className='box'>
+            <p>Goals:</p>
+            {/* input name = goals */}
+            {this.state.goals.map((goal, idx) => (
+              <div className="goal" key={`goal_${idx + 1}`}>
+                <input
+                  type="text"
+                  placeholder={`goal_${idx + 1}`}
+                  value={goal.statement}
+                  onChange={this.handleGoalChange(idx)}
+                />
+                <button type="button" onClick={this.handleRemove('goals')(idx)} className="small">X</button>
+              </div>
+            ))}
+            <button type="button" onClick={this.handleAdd('goals')} className="small">Add Goal</button>
+          </div>
 
+          <div className='box'>
+            <p>People:</p>
+            {/* input name = people */}
+            {/* every person gets an email or null email too */}
+            {this.state.people.map((person, idx) => (
+              <div className="person" key={`name_${idx + 1}`}>
+                <input
+                  type="text"
+                  placeholder={`name_${idx + 1}`}
+                  value={person.name}
+                  onChange={this.handleNameChange(idx)}
+                />
+                <input
+                  type="text"
+                  placeholder={`email_${idx + 1}`}
+                  value={person.email}
+                  onChange={this.handleEmailChange(idx)}
+                />
+                <button type="button" onClick={this.handleRemove('people')(idx)} className="small">X</button>
+              </div>
+            ))}
+            <button type="button" onClick={this.handleAdd('people')} className="small">Add Participant</button>
+          </div>
 
-          <p>People:</p>
-          {/* input name = people */}
-          {/* every person gets an email or null email too */}
-          {this.state.people.map((person, idx) => (
-            <div className="person" key={`name_${idx + 1}`}>
-              <input
-                type="text"
-                placeholder={`name_${idx + 1}`}
-                value={person.name}
-                onChange={this.handleNameChange(idx)}
-              />
-              <input
-                type="text"
-                placeholder={`email_${idx + 1}`}
-                value={person.email}
-                onChange={this.handleEmailChange(idx)}
-              />
-              <button type="button" onClick={this.handleRemove('people')(idx)} className="small">X</button>
-            </div>
-          ))}
-          <button type="button" onClick={this.handleAdd('people')} className="small">Add Participant</button>
+          <div className='box'>
+            <button type='submit'>Ready?</button>
+          </div>
 
-
-          <button type='submit'>Ready?</button>
         </form>
       </div>
     );

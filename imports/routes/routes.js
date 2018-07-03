@@ -4,7 +4,6 @@ import { Mongo } from 'meteor/mongo';
 import queryString from 'query-string';
 import React from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router';
-import { withTracker } from 'meteor/react-meteor-data';
 
 import { Meets } from '../api/meets';
 
@@ -12,8 +11,6 @@ import Header from '../ui/Header';
 import Landing from '../ui/Landing';
 import Before from '../ui/Before';
 import Created from '../ui/Created';
-// import CreatedContainer from '../ui/CreatedContainer';
-import Loading from '../ui/Loading';
 import NotFound from '../ui/NotFound';
 
 const browserHistory = createHistory();

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Session } from 'meteor/session';
 import { TimeSync } from 'meteor/mizzao:timesync';
@@ -83,5 +84,26 @@ export default class During extends React.Component {
       </div>
     );
   }
+};
+
+During.propTypes = {
+  meet: PropTypes.objectOf({
+    _id: PropTypes.string.isRequired,
+    meetid: PropTypes.string.isRequired,
+    duration: PropTypes.objectOf({
+      hour: PropTypes.number.isRequired,
+      min: PropTypes.number.isRequired,
+    }).isRequired,
+    goals: PropTypes.arrayOf(PropTypes.objectOf({
+      statement: PropTypes.string.isRequired
+    }).isRequired).isRequired,
+    people: PropTypes.arrayOf(PropTypes.objectOf({
+      name: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired
+    }).isRequired).isRequired,
+    createDate: PropTypes.number.isRequired,
+    started: PropTypes.bool.isRequired,
+    ended: PropTypes.bool.isRequired
+  }).isRequired
 };
 
