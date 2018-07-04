@@ -2,16 +2,27 @@ body {
   margin: 0;
   padding: 0;
   font-family: Verdana, sans-serif;
-  /* text-align: center; */
   font-size: 18px;
 }
 
 div.narrow {
-  margin: 8px auto 14px auto;
+  margin: 16px auto 14px auto;
   padding: 4px;
-  justify: center;
 }
 
 div.box {
   margin: 0px auto 20px auto;
 }
+
+div.person {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin-bottom: 4px;
+}
+
+Container {
+  display: flex;
+  align-items: center;
+}
+
