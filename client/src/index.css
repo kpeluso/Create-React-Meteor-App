@@ -5,18 +5,8 @@ body {
   font-size: 18px;
 }
 
-div.narrow {
-  margin: 16px auto 14px auto;
-  padding: 4px;
-}
-
-div.box {
-  margin: 0px auto 20px auto;
-}
-
-div.person {
-  display: flex;
-  flex-direction: row;
+.person {
+  width: 100%;
   flex-wrap: nowrap;
   margin-bottom: 4px;
 }
@@ -24,5 +14,46 @@ div.person {
 Container {
   display: flex;
   align-items: center;
+}
+
+Button.importantButt {
+  width: 100%;
+}
+
+Button.bott {
+  margin-bottom: 40%;
+}
+
+.addTop {
+  margin-top: 20px;
+}
+
+h3 {
+  padding-top: 15%;
+}
+
+div.center {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.leftMarg {
+  margin-left: 16px;
+}
+
+Navbar {
+  display: flex;
+  justify-content: space-around;
+}
+
+.navWrapper {
+  margin: 0 auto;
+  padding: auto 0;
+  width: 80%;
+  min-width: 200px;
+  float: center;
+  display: flex;
+  justify-content: space-between;
 }
 

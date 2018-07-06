@@ -5,6 +5,8 @@ import React from 'react';
 import { Session } from 'meteor/session';
 import { TimeSync } from 'meteor/mizzao:timesync';
 
+import { Button, Container, Col, Form, FormGroup, Input, ListGroup, ListGroupItem, Row } from 'reactstrap';
+
 export default class During extends React.Component {
   constructor(props) {
     super(props);
@@ -56,32 +58,55 @@ export default class During extends React.Component {
       }
     );
   }
+  listGoals() {
+    return <ListGroup>
+      {this.props.meet.goals.map((goal, idx) => {
+        return <ListGroupItem key={idx}>{goal.statement}</ListGroupItem>
+      })}
+    </ListGroup>
+  }
   render() {
     return (
-      <div className='container'>
-        <div className='box'>
-          <h1>During.js</h1>
-        </div>
+      <Container>
+        <Row noGutters={true}>
+          <Col>
+            <div className='center'>
+              <h4>Copy/Share this link:</h4>
+              <p>{window.location.href}</p>
+              <h4>or this code:</h4>
+              <p>{this.props.meet.meetId}</p>
+            </div>
+          </Col>
+        </Row>
 
-        <div className='box'>
-          <h3>Copy/Share this link:</h3>
-          <p>{window.location.href}</p>
-          <h3>or this code:</h3>
-          <p>{this.props.meet.meetId}</p>
-        </div>
+        <Row>
+          <Col>
+            <div className='center'>
+              <p className={`${this.state.timerClass}`}>Time Remaining:</p>
+              <p>{this.state.currTime}</p>
+            </div>
+          </Col>
+        </Row>
 
-        <div className={`box ${this.state.timerClass}`}>
-          <p>Time Remaining:</p>
-          <p>{this.state.currTime}</p>
-        </div>
+        <Row>
+          <Col></Col>
+          <Col>
+            <h4>Goals:</h4>
+            {this.listGoals()}
+          </Col>
+          <Col></Col>
+        </Row>
 
-        <div className='box'>
-          Goals:
-        </div>
-
-        {/* bright, noticeable, clickable color & placement */}
-        <button onClick={this.endMeet.bind(this)}>End Early!</button>
-      </div>
+        <Row>
+          <Col></Col>
+          <Col>
+            <div className='center'>
+              <Button className='importantButt bott' color="danger" onClick={this.endMeet.bind(this)}>End Early!</Button>
+            </div>
+          </Col>
+          <Col></Col>
+        </Row>
+      </Container>
     );
   }
 };
@@ -89,7 +114,7 @@ export default class During extends React.Component {
 During.propTypes = {
   meet: PropTypes.objectOf({
     _id: PropTypes.string.isRequired,
-    meetid: PropTypes.string.isRequired,
+    meetId: PropTypes.string.isRequired,
     duration: PropTypes.objectOf({
       hour: PropTypes.number.isRequired,
       min: PropTypes.number.isRequired,

@@ -1,8 +1,9 @@
 import createHistory from 'history/createBrowserHistory';
 import moment from 'moment';
 import { Meteor } from 'meteor/meteor';
+import PropTypes from 'prop-types';
 import React from 'react';
-import { Button, Col, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Col, Container, Form, FormGroup, Label, ListGroup, ListGroupItem, Input, Row } from 'reactstrap';
 
 export default class After extends React.Component {
   constructor(props) {
@@ -17,10 +18,9 @@ export default class After extends React.Component {
   selectPeople(people, keyId) {
     return (
       <FormGroup key={`goal_${keyId+1}`} check row>
-        <Label for={`${keyId}`} check>Select People</Label>
         <Col sm={{ size: 10, offset: 2 }}>
           {people.map((person, idx) => {
-            return <p key={`person_${idx+1}`}><Input type='checkbox'  value={idx} onChange={this.handleGoal2PeopleChange(keyId, idx)} value={true} />{person.name}</p>
+            return <p key={`person_${idx+1}`}><Label check><Input type='checkbox'  value={idx} onChange={this.handleGoal2PeopleChange(keyId, idx)} value={true} />{person.name}</Label></p>
           })}
         </Col>
       </FormGroup>
@@ -70,7 +70,7 @@ export default class After extends React.Component {
     let resps = this.listResps();
     let repeatSparks = '\u2728'.repeat(19);
     let output = `${repeatSparks}
-    %0D%0A %20 %20 \u2728 Congrats! You made it through another meeting! \u2728
+    %0D%0A \u2728 Congrats! You made it through another meeting! %20 \u2728
     %0D%0A ${repeatSparks}
     %0D%0A
     %0D%0A
@@ -101,7 +101,7 @@ export default class After extends React.Component {
     const text = this.emailText();
     const emails = this.props.meet.people.map(person => person.email).join(';%20');
     const createdAt = moment(this.props.meet.createDate).format('MMM DD h:mm A');
-    const subject = "Meetr Receipt: Meeting "+this.props.meet.meetId+" created "+createdAt
+    const subject = "Meetr Receipt from " + createdAt;
     Meteor.call(
       'meets.rm',
       { meetId: this.props.meet.meetId },
@@ -120,39 +120,101 @@ export default class After extends React.Component {
   }
   render() {
     return (
-      <div className='container'>
-        <Form method='post' onSubmit={this.handleSubmit.bind(this)}>
-          <div className='box'>
-            <h2>We made it!</h2>
-            <h2>Congrats on finishing!</h2>
-          </div>
+      <Form method='post' onSubmit={this.handleSubmit.bind(this)}>
+        <Container>
+          <Row noGutters={true}>
+            <Col></Col>
+            <Col>
+              <div className='center'>
+                <h4>We made it!</h4>
+                <h4>Congrats on finishing!</h4>
+                <hr />
+              </div>
+            </Col>
+            <Col></Col>
+          </Row>
 
-          <div className='box'>
-            <h2>Did we accomplish our goals?</h2>
-            <small>Check the box for 'Yes', leave blank for 'No'.</small>
-            {this.props.meet.goals.map((goal, idx) => {
-              if (!!goal.statement) {
-                return <p key={idx}>{idx+1}. <input type='checkbox' name={`goalDone_${idx+1}`} onChange={this.handleGoals2DoneChange(idx)} value={true} />{goal.statement}</p>;
-              }
-            })}
-          </div>
+          <Row noGutters={true}>
+            <Col></Col>
+            <Col>
+              <h4 className='addTop'>Did we accomplish our goals?</h4>
+              <small>Check for 'Yes', leave blank for 'No'.</small>
+              <ListGroup>
+                {this.props.meet.goals.map((goal, idx) => {
+                  if (!!goal.statement) {
+                    return <div>
+                      <ListGroupItem key={idx} tag='a' name={`goalDone_${idx+1}`} onClick={this.handleGoals2DoneChange(idx)} action>
+                        <div className='leftMarg'>
+                            <Input type='checkbox' checked={this.state.goals2done[idx]} name={`goalDone_${idx+1}`} onChange={this.handleGoals2DoneChange(idx)} value={true} />{' '}
+                            {idx+1}{'. '}
+                            {goal.statement}
+                        </div>
+                        </ListGroupItem>
+                    </div>
+                  }
+                })}
+              </ListGroup>
+              <hr />
+            </Col>
+            <Col></Col>
+          </Row>
 
-          <div className='box'>
-            <h2>Who is responsible for implementing finished goals or completing unmet goals?</h2>
-            <small>Check the box for 'Yes', leave blank for 'No'.</small>
-            {this.props.meet.goals.map((goal, idx) => {
-              return <div key={idx}>{idx+1}. {goal.statement} {this.selectPeople(this.props.meet.people, idx)}</div>;
-            })}
-          </div>
+          <Row noGutters={true}>
+            <Col></Col>
+            <Col>
+              <h4 className='addTop'>Who is responsible for implementing finished goals or completing unmet goals?</h4>
+              <small>Check to indicate 'This person is responsible'.</small>
+              <ListGroup>
+                {this.props.meet.goals.map((goal, idx) => {
+                  return <ListGroupItem key={idx}><p>{idx+1}. {goal.statement}</p> {this.selectPeople(this.props.meet.people, idx)}</ListGroupItem>;
+                })}
+              </ListGroup>
+              <hr className='addTop' />
+            </Col>
+            <Col></Col>
+          </Row>
 
-          <div className='box'>
-            <small>Make sure your pop-up blocker is disabled!</small>
-            <p>Destroy meeting from collection upon button hit or after a fixed period of time (24 hours).</p>
-            <Button type='submit'>Leave Meeting</Button>
-          </div>
-        </Form>
-      </div>
+          <Row>
+            <Col></Col>
+            <Col>
+              <Row>
+                <Col>
+                  <small>Make sure your pop-up blocker is disabled!</small>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <small>(Meetr wants to automatically generate an email receipt)</small>
+                </Col>
+              </Row>
+              <Button color='primary' className='importantButt bott addTop' type='submit'>Leave Meeting</Button>
+            </Col>
+            <Col></Col>
+          </Row>
+        </Container>
+      </Form>
     );
   }
+};
+
+After.propTypes = {
+  meet: PropTypes.objectOf({
+    _id: PropTypes.string.isRequired,
+    meetId: PropTypes.string.isRequired,
+    duration: PropTypes.objectOf({
+      hour: PropTypes.number.isRequired,
+      min: PropTypes.number.isRequired,
+    }).isRequired,
+    goals: PropTypes.arrayOf(PropTypes.objectOf({
+      statement: PropTypes.string.isRequired
+    }).isRequired).isRequired,
+    people: PropTypes.arrayOf(PropTypes.objectOf({
+      name: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired
+    }).isRequired).isRequired,
+    createDate: PropTypes.number.isRequired,
+    started: PropTypes.bool.isRequired,
+    ended: PropTypes.bool.isRequired
+  }).isRequired
 };
 

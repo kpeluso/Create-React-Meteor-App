@@ -36,7 +36,7 @@ export default class Created extends React.Component {
               { meetId: myMeet.meetId },
               (err) => {
                 if (!err) {
-                  alert('Your meeting has started!');
+                  alert('Your new meeting has started!');
                 } else {
                   alert(err.reason);
                   this.setState({error: err.reason})
@@ -75,6 +75,6 @@ export default class Created extends React.Component {
 }
 
 Created.propTypes = {
-  meetid: PropTypes.string.isRequired
+  meetId: PropTypes.string.isRequired
 };
 

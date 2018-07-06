@@ -131,9 +131,7 @@ Meteor.methods({
     } catch (e) {
       throw new Meteor.Error(400,e.message);
     }
-    const rm = {};
-    rm.meetId = meetId;
-    Meets.remove(rm);
+    Meets.remove(meetId);
   }
 });
 

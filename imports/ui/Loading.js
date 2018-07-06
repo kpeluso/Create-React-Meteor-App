@@ -1,12 +1,15 @@
 import React from 'react';
+import { Container, Row, Col } from 'reactstrap';
 
 export default () => {
-  return (
-    <div className='container'>
-      <div className='box'>
-        <h1>Loading...</h1>
-      </div>
-    </div>
-  );
+  return <Container>
+    <Row>
+      <Col>
+        <div className='center addTop'>
+          <h1>Loading...</h1>
+        </div>
+      </Col>
+    </Row>
+  </Container>
 };
 
