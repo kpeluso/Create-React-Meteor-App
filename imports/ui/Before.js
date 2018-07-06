@@ -150,8 +150,8 @@ export default class Before extends React.Component {
               <p>Goals:</p>
               {/* input name = goals */}
               {this.state.goals.map((goal, idx) => (
-                <FormGroup row>
-                  <Col className="goal" key={`goal_${idx + 1}`}>
+                <FormGroup key={`goal_${idx + 1}`} row>
+                  <Col className="goal">
                     <Input
                       type="text"
                       placeholder={`goal_${idx + 1}`}

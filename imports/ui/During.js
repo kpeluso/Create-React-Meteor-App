@@ -112,17 +112,17 @@ export default class During extends React.Component {
 };
 
 During.propTypes = {
-  meet: PropTypes.objectOf({
+  meet: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     meetId: PropTypes.string.isRequired,
-    duration: PropTypes.objectOf({
+    duration: PropTypes.shape({
       hour: PropTypes.number.isRequired,
       min: PropTypes.number.isRequired,
     }).isRequired,
-    goals: PropTypes.arrayOf(PropTypes.objectOf({
+    goals: PropTypes.arrayOf(PropTypes.shape({
       statement: PropTypes.string.isRequired
     }).isRequired).isRequired,
-    people: PropTypes.arrayOf(PropTypes.objectOf({
+    people: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
       email: PropTypes.string.isRequired
     }).isRequired).isRequired,

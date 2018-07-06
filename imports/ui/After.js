@@ -142,8 +142,8 @@ export default class After extends React.Component {
               <ListGroup>
                 {this.props.meet.goals.map((goal, idx) => {
                   if (!!goal.statement) {
-                    return <div>
-                      <ListGroupItem key={idx} tag='a' name={`goalDone_${idx+1}`} onClick={this.handleGoals2DoneChange(idx)} action>
+                    return <div key={idx}>
+                      <ListGroupItem tag='a' name={`goalDone_${idx+1}`} onClick={this.handleGoals2DoneChange(idx)} action>
                         <div className='leftMarg'>
                             <Input type='checkbox' checked={this.state.goals2done[idx]} name={`goalDone_${idx+1}`} onChange={this.handleGoals2DoneChange(idx)} value={true} />{' '}
                             {idx+1}{'. '}
@@ -198,17 +198,17 @@ export default class After extends React.Component {
 };
 
 After.propTypes = {
-  meet: PropTypes.objectOf({
+  meet: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     meetId: PropTypes.string.isRequired,
-    duration: PropTypes.objectOf({
+    duration: PropTypes.shape({
       hour: PropTypes.number.isRequired,
       min: PropTypes.number.isRequired,
     }).isRequired,
-    goals: PropTypes.arrayOf(PropTypes.objectOf({
+    goals: PropTypes.arrayOf(PropTypes.shape({
       statement: PropTypes.string.isRequired
     }).isRequired).isRequired,
-    people: PropTypes.arrayOf(PropTypes.objectOf({
+    people: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
       email: PropTypes.string.isRequired
     }).isRequired).isRequired,
